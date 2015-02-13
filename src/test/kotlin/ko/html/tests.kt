@@ -70,6 +70,14 @@ class BodyTest {
 
         Assert.assertEquals("<body><h1>Hello, world!</h1></body>", body.toString())
     }
+
+    Test fun div() {
+        val body = Body {
+            div(text = "div")
+        }
+
+        Assert.assertEquals("<body><div>div</div></body>", body.toString())
+    }
 }
 
 class HeadTest() {

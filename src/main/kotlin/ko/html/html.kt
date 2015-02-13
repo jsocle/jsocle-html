@@ -95,6 +95,12 @@ abstract class ContainerElement(name: String, id: String?, class_: String?) : El
         children.add(h1)
         return h1
     }
+
+    fun div(id: String? = null, class_: String? = null, text: String? = null): Div {
+        val div = Div(id = id, class_ = class_, text = text)
+        children.add(div)
+        return div
+    }
 }
 
 class Html(lang: String? = null, init: Html.() -> Unit = {}) : Element(name = "html", id = null, class_ = null) {
@@ -203,9 +209,15 @@ class Script(id: String? = null, class_: String? = null, src: String? = null) : 
 class H1(id: String? = null, class_: String? = null, text: String? = null) : Element(name = "h1", id = id, class_ = class_) {
     {
         if (text != null) {
-            children.add(TextElement(text))
+            children.add(TextElement(text = text))
         }
     }
 }
 
-class Div(id: String? = null, class_: String? = null) : ContainerElement("div", id, class_)
+class Div(id: String? = null, class_: String? = null, text: String? = null) : ContainerElement("div", id, class_) {
+    {
+        if (text != null) {
+            children.add(TextElement(text = text))
+        }
+    }
+}
