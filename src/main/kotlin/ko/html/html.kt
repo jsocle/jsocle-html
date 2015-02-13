@@ -103,6 +103,12 @@ class Head(init: Head.() -> Unit = {}) : Element("head") {
         children.add(element)
         return element
     }
+
+    fun title(text: String? = null): Title {
+        val title = Title(text)
+        children.add(title)
+        return title
+    }
 }
 
 class Meta(charset: String? = null, httpEquiv: String? = null, name: String? = null, content: String? = null, init: Meta.() -> Unit = {}) : SingleElement("meta") {

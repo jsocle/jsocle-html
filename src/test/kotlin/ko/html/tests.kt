@@ -48,6 +48,13 @@ class HeadTest() {
         val head = Head()
         Assert.assertEquals("<head></head>", head.toString())
     }
+
+    Test fun title() {
+        val head = Head {
+            title("untitled")
+        }
+        Assert.assertEquals("<head><title>untitled</title></head>", head.toString())
+    }
 }
 
 class MetaTest() {
