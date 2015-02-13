@@ -100,14 +100,14 @@ abstract class ContainerElement(name: String, id: String?, class_: String?) : El
 class Html(lang: String? = null, init: Html.() -> Unit = {}) : Element(name = "html", id = null, class_ = null) {
     var lang by attributeHandler
 
-    override fun render(builder: Appendable) {
-        builder.append("<!DOCTYPE html>")
-        super.render(builder)
-    }
-
     {
         this.lang = lang
         init()
+    }
+
+    override fun render(builder: Appendable) {
+        builder.append("<!DOCTYPE html>")
+        super.render(builder)
     }
 
     fun head(init: Head.() -> Unit = {}): Head {
