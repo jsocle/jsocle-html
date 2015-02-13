@@ -8,6 +8,10 @@ class HtmlTest {
         val htmlTag = Html()
         assertEquals("<!DOCTYPE html><html></html>", htmlTag.toString())
     }
+
+    Test fun langAttribute() {
+        assertEquals("<!DOCTYPE html><html lang=\"en\"></html>", Html(lang = "en").toString())
+    }
 }
 
 class BodyTest {
