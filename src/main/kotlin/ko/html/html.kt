@@ -34,17 +34,22 @@ abstract class AbstractElement(val name: String) {
 }
 
 abstract class Element(name: String) : AbstractElement(name) {
+    protected val children: MutableList<AbstractElement> = arrayListOf()
+
     override fun render(builder: StringBuilder) {
         builder.append("<").append(name)
         for ((name, value) in attributes) {
             builder.append(" ").append(name).append("=\"").append(value).append("\"")
         }
         builder.append(">")
+        for (child in children) {
+            child.render(builder)
+        }
         builder.append("</").append(name).append(">")
     }
 }
 
-open class Html(lang: String? = null) : Element("html") {
+class Html(lang: String? = null, init: Html.() -> Unit = {}) : Element("html") {
     var lang by attributeHandler
 
     override fun render(builder: StringBuilder) {
@@ -54,7 +59,14 @@ open class Html(lang: String? = null) : Element("html") {
 
     {
         this.lang = lang
+        init()
+    }
+
+    fun head() {
+        children.add(Head())
     }
 }
+
+class Head : Element("head")
 
 class Body : Element("body")
