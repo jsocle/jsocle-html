@@ -73,10 +73,12 @@ class BodyTest {
 
     Test fun div() {
         val body = Body {
-            div(text = "div")
+            div(text = "div") {
+                id = "test"
+            }
         }
 
-        Assert.assertEquals("<body><div>div</div></body>", body.toString())
+        Assert.assertEquals("<body><div id=\"test\">div</div></body>", body.toString())
     }
 }
 

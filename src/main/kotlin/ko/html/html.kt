@@ -96,8 +96,8 @@ abstract class ContainerElement(name: String, id: String?, class_: String?) : El
         return h1
     }
 
-    fun div(id: String? = null, class_: String? = null, text: String? = null): Div {
-        val div = Div(id = id, class_ = class_, text = text)
+    fun div(id: String? = null, class_: String? = null, text: String? = null, init: Div.() -> Unit = {}): Div {
+        val div = Div(id = id, class_ = class_, text = text, init = init)
         children.add(div)
         return div
     }
@@ -214,10 +214,11 @@ class H1(id: String? = null, class_: String? = null, text: String? = null) : Ele
     }
 }
 
-class Div(id: String? = null, class_: String? = null, text: String? = null) : ContainerElement("div", id, class_) {
+class Div(id: String? = null, class_: String? = null, text: String? = null, init: Div.() -> Unit = {}) : ContainerElement("div", id, class_) {
     {
         if (text != null) {
             children.add(TextElement(text = text))
         }
+        init()
     }
 }
