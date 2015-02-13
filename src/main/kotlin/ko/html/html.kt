@@ -23,5 +23,4 @@ open class Html : Element("html") {
     }
 }
 
-class Body : Element("body") {
-}
+class Body : Element("body")
