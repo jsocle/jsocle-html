@@ -8,6 +8,7 @@ import ko.html.Meta
 import org.junit.Assert
 import ko.html.Title
 import ko.html.TextElement
+import ko.html.Link
 
 class HtmlTest {
     Test fun renderHtml() {
@@ -70,13 +71,13 @@ class MetaTest() {
 
     Test fun httpEquivContent() {
         val meta = Meta(httpEquiv = "X-UA-Compatible", content = "IE=edge")
-        Assert.assertEquals("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">", meta.toString())
+        Assert.assertEquals("<meta content=\"IE=edge\" http-equiv=\"X-UA-Compatible\">", meta.toString())
     }
 
     Test fun name() {
         val meta = Meta(name = "viewport", content = "width=device-width, initial-scale=1")
         Assert.assertEquals(
-                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">", meta.toString()
+                "<meta content=\"width=device-width, initial-scale=1\" name=\"viewport\">", meta.toString()
         )
     }
 }
@@ -93,10 +94,21 @@ class TitleTest {
     }
 }
 
+class LinkTest {
+    Test fun render() {
+        val link = Link()
+        Assert.assertEquals("<link>", link.toString())
+    }
+
+    Test fun linkStyleSheet() {
+        val link = Link(href = "css/bootstrap.min.css", rel = "stylesheet")
+        Assert.assertEquals("<link href=\"css/bootstrap.min.css\" rel=\"stylesheet\">", link.toString())
+    }
+}
+
 class TextElementTest {
     Test fun render() {
         val textElement = TextElement("<>&")
         Assert.assertEquals("&lt;&gt;&amp;", textElement.toString())
     }
-
 }

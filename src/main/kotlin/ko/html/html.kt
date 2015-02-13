@@ -42,9 +42,11 @@ abstract class AbstractElement(val elementName: String) {
 
     protected fun renderOpen(builder: StringBuilder) {
         builder.append("<").append(elementName)
-        for ((name, value) in attributes) {
-            builder.append(" ").append(name).append("=\"").append(value).append("\"")
-        }
+        attributes.map { it }
+                .sortBy { it.getKey() }
+                .forEach {
+                    builder.append(" ").append(it.getKey()).append("=\"").append(it.getValue()).append("\"")
+                }
         builder.append(">")
     }
 }
@@ -131,6 +133,16 @@ class Title(text: String? = null) : Element("title") {
         if (text != null) {
             children.add(TextElement(text))
         }
+    }
+}
+
+class Link(href: String? = null, rel: String? = null) : SingleElement("link") {
+    var href by attributeHandler
+    var rel by attributeHandler
+
+    {
+        this.href = href
+        this.rel = rel
     }
 }
 
