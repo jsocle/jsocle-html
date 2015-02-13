@@ -9,6 +9,8 @@ buildscript {
     }
 }
 
+version = "0.0.1"
+
 apply plugin: "kotlin"
 
 repositories {
@@ -16,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    compile (
+    compile(
             "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion", 'com.google.guava:guava:18.0'
     )
 
