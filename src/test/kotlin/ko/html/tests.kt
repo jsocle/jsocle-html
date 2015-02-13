@@ -9,6 +9,7 @@ import org.junit.Assert
 import ko.html.Title
 import ko.html.TextElement
 import ko.html.Link
+import ko.html.Script
 
 class HtmlTest {
     Test fun renderHtml() {
@@ -41,6 +42,14 @@ class BodyTest {
     Test fun renderHtml() {
         val body = Body()
         Assert.assertEquals("<body></body>", body.toString())
+    }
+
+    Test fun script() {
+        val body = Body {
+            script(src = "js/bootstrap.min.js")
+        }
+
+        Assert.assertEquals("<body><script src=\"js/bootstrap.min.js\"></script></body>", body.toString())
     }
 }
 
@@ -117,5 +126,18 @@ class TextElementTest {
     Test fun render() {
         val textElement = TextElement("<>&")
         Assert.assertEquals("&lt;&gt;&amp;", textElement.toString())
+    }
+}
+
+
+class ScriptTest {
+    Test fun render() {
+        val script = Script()
+        Assert.assertEquals("<script></script>", script.toString())
+    }
+
+    Test fun source() {
+        val script = Script("js/bootstrap.min.js")
+        Assert.assertEquals("<script src=\"js/bootstrap.min.js\"></script>", script.toString())
     }
 }

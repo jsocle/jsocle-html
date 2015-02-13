@@ -152,4 +152,22 @@ class Link(href: String? = null, rel: String? = null) : SingleElement("link") {
     }
 }
 
-class Body : Element("body")
+class Body(init: Body.() -> Unit = {}) : Element("body") {
+    {
+        init()
+    }
+
+    fun script(src: String? = null): Script {
+        val script = Script(src)
+        children.add(script)
+        return script
+    }
+}
+
+class Script(src: String? = null) : Element("script") {
+    var src by attributeHandler
+
+    {
+        this.src = src
+    }
+}
