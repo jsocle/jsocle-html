@@ -1,27 +1,35 @@
 package ko.html
 
 import kotlin.properties.ReadWriteProperty
+import com.google.common.base.CaseFormat
+import com.google.common.html.HtmlEscapers
+
+fun String.hyphens(): String {
+    return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, this)
+}
 
 object attributeHandler : ReadWriteProperty<AbstractElement, String?> {
     override fun get(thisRef: AbstractElement, desc: PropertyMetadata): String? {
-        if (thisRef.attributes.containsKey(desc.name)) {
-            return thisRef.attributes[desc.name]
+        val name = desc.name.hyphens()
+        if (thisRef.attributes.containsKey(name)) {
+            return thisRef.attributes[name]
         }
         return null
     }
 
     override fun set(thisRef: AbstractElement, desc: PropertyMetadata, value: String?) {
+        val name = desc.name.hyphens()
         if (value != null) {
-            thisRef.attributes.put(desc.name, value)
+            thisRef.attributes.put(name, value)
         } else {
-            if (thisRef.attributes.containsKey(desc.name)) {
-                thisRef.attributes.remove(desc.name)
+            if (thisRef.attributes.containsKey(name)) {
+                thisRef.attributes.remove(name)
             }
         }
     }
 }
 
-abstract class AbstractElement(val name: String) {
+abstract class AbstractElement(val elementName: String) {
     val attributes: MutableMap<String, String> = hashMapOf()
 
     abstract fun render(builder: StringBuilder)
@@ -31,21 +39,37 @@ abstract class AbstractElement(val name: String) {
         render(builder)
         return builder.toString()
     }
+
+    protected fun renderOpen(builder: StringBuilder) {
+        builder.append("<").append(elementName)
+        for ((name, value) in attributes) {
+            builder.append(" ").append(name).append("=\"").append(value).append("\"")
+        }
+        builder.append(">")
+    }
+}
+
+class TextElement(val text: String) : AbstractElement("TextElement") {
+    override fun render(builder: StringBuilder) {
+        builder.append(HtmlEscapers.htmlEscaper().escape(text))
+    }
+}
+
+abstract class SingleElement(name: String) : AbstractElement(name) {
+    override fun render(builder: StringBuilder) {
+        renderOpen(builder)
+    }
 }
 
 abstract class Element(name: String) : AbstractElement(name) {
     protected val children: MutableList<AbstractElement> = arrayListOf()
 
     override fun render(builder: StringBuilder) {
-        builder.append("<").append(name)
-        for ((name, value) in attributes) {
-            builder.append(" ").append(name).append("=\"").append(value).append("\"")
-        }
-        builder.append(">")
+        renderOpen(builder)
         for (child in children) {
             child.render(builder)
         }
-        builder.append("</").append(name).append(">")
+        builder.append("</").append(elementName).append(">")
     }
 }
 
@@ -62,11 +86,46 @@ class Html(lang: String? = null, init: Html.() -> Unit = {}) : Element("html") {
         init()
     }
 
-    fun head() {
-        children.add(Head())
+    fun head(init: Head.() -> Unit = {}): Head {
+        val element = Head(init = init)
+        children.add(element)
+        return element;
     }
 }
 
-class Head : Element("head")
+class Head(init: Head.() -> Unit = {}) : Element("head") {
+    {
+        init()
+    }
+
+    fun meta(charset: String? = null, httpEquiv: String? = null, name: String? = null, content: String? = null, init: Meta.() -> Unit = {}): Meta {
+        val element = Meta(charset = charset, httpEquiv = httpEquiv, name = name, content = content, init = init)
+        children.add(element)
+        return element
+    }
+}
+
+class Meta(charset: String? = null, httpEquiv: String? = null, name: String? = null, content: String? = null, init: Meta.() -> Unit = {}) : SingleElement("meta") {
+    var charset by attributeHandler
+    var httpEquiv by attributeHandler
+    var name by attributeHandler
+    var content by attributeHandler
+
+    {
+        this.charset = charset
+        this.httpEquiv = httpEquiv
+        this.name = name
+        this.content = content
+        init()
+    }
+}
+
+class Title(text: String? = null) : Element("title") {
+    {
+        if (text != null) {
+            children.add(TextElement(text))
+        }
+    }
+}
 
 class Body : Element("body")
