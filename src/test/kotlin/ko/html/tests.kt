@@ -38,6 +38,15 @@ class HtmlTest {
         }
         Assert.assertEquals("<!DOCTYPE html><html><head><meta></head></html>", html.toString())
     }
+
+    Test fun body() {
+        val html = Html {
+            body {
+            }
+        }
+
+        Assert.assertEquals("<!DOCTYPE html><html><body></body></html>", html.toString())
+    }
 }
 
 class BodyTest {

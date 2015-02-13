@@ -115,6 +115,12 @@ class Html(lang: String? = null, init: Html.() -> Unit = {}) : Element(name = "h
         children.add(element)
         return element;
     }
+
+    fun body(id: String? = null, class_: String? = null, init: Body.() -> Unit = {}): Body {
+        val body = Body(id = id, class_ = class_, init = init)
+        children.add(body)
+        return body
+    }
 }
 
 class Head(init: Head.() -> Unit = {}) : Element(name = "head", id = null, class_ = null) {
