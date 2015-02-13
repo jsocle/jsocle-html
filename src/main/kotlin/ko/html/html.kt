@@ -1,6 +1,6 @@
 package ko.html
 
-abstract class Tag {
+abstract class AbstractElement(val name: String) {
     abstract fun render(builder: StringBuilder)
 
     override fun toString(): String {
@@ -10,23 +10,18 @@ abstract class Tag {
     }
 }
 
-open class Html : Tag() {
+abstract class Element(name: String) : AbstractElement(name) {
     override fun render(builder: StringBuilder) {
-        builder.append("<html></html>")
+        builder.append("<$name></$name>")
     }
 }
 
-
-class Html5 : Html() {
+open class Html : Element("html") {
     override fun render(builder: StringBuilder) {
         builder.append("<!DOCTYPE html>")
         super.render(builder)
     }
 }
 
-
-class Body : Tag() {
-    override fun render(builder: StringBuilder) {
-        builder.append("<body></body>")
-    }
+class Body : Element("body") {
 }

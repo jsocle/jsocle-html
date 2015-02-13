@@ -6,11 +6,6 @@ import kotlin.test.assertEquals
 class HtmlTest {
     Test fun renderHtml() {
         val htmlTag = Html()
-        assertEquals("<html></html>", htmlTag.toString())
-    }
-
-    Test fun docType() {
-        val htmlTag = Html5()
         assertEquals("<!DOCTYPE html><html></html>", htmlTag.toString())
     }
 }
