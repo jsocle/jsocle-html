@@ -10,6 +10,7 @@ import ko.html.Title
 import ko.html.TextElement
 import ko.html.Link
 import ko.html.Script
+import ko.html.H1
 
 class HtmlTest {
     Test fun renderHtml() {
@@ -50,6 +51,14 @@ class BodyTest {
         }
 
         Assert.assertEquals("<body><script src=\"js/bootstrap.min.js\"></script></body>", body.toString())
+    }
+
+    Test fun h1() {
+        val body = Body {
+            h1("Hello, world!")
+        }
+
+        Assert.assertEquals("<body><h1>Hello, world!</h1></body>", body.toString())
     }
 }
 
@@ -139,5 +148,12 @@ class ScriptTest {
     Test fun source() {
         val script = Script("js/bootstrap.min.js")
         Assert.assertEquals("<script src=\"js/bootstrap.min.js\"></script>", script.toString())
+    }
+}
+
+class H1Test {
+    Test fun render() {
+        val h1 = H1("Hello, world!")
+        Assert.assertEquals("<h1>Hello, world!</h1>", h1.toString())
     }
 }

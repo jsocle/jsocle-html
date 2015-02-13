@@ -162,6 +162,12 @@ class Body(init: Body.() -> Unit = {}) : Element("body") {
         children.add(script)
         return script
     }
+
+    fun h1(text: String? = null): H1 {
+        val h1 = H1(text)
+        children.add(h1)
+        return h1
+    }
 }
 
 class Script(src: String? = null) : Element("script") {
@@ -169,5 +175,13 @@ class Script(src: String? = null) : Element("script") {
 
     {
         this.src = src
+    }
+}
+
+class H1(text: String? = null) : Element("h1") {
+    {
+        if (text != null) {
+            children.add(TextElement(text))
+        }
     }
 }
