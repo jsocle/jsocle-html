@@ -10,14 +10,23 @@ abstract class Tag {
     }
 }
 
-class Html : Tag() {
+open class Html : Tag() {
     override fun render(builder: StringBuilder) {
         builder.append("<html></html>")
     }
 }
 
-fun html(init: (Html.() -> Unit) = {}): Html {
-    val html = Html()
-    html.init()
-    return html
+
+class Html5 : Html() {
+    override fun render(builder: StringBuilder) {
+        builder.append("<!DOCTYPE html>")
+        super.render(builder)
+    }
+}
+
+
+class Body : Tag() {
+    override fun render(builder: StringBuilder) {
+        builder.append("<body></body>")
+    }
 }
