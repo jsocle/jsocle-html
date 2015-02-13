@@ -32,7 +32,7 @@ object attributeHandler : ReadWriteProperty<AbstractElement, String?> {
 abstract class AbstractElement(val elementName: String) {
     val attributes: MutableMap<String, String> = hashMapOf()
 
-    abstract fun render(builder: StringBuilder)
+    abstract fun render(builder: Appendable)
 
     override fun toString(): String {
         val builder = StringBuilder()
@@ -40,7 +40,7 @@ abstract class AbstractElement(val elementName: String) {
         return builder.toString()
     }
 
-    protected fun renderOpen(builder: StringBuilder) {
+    protected fun renderOpen(builder: Appendable) {
         builder.append("<").append(elementName)
         attributes
                 .map {
@@ -66,13 +66,13 @@ abstract class FindableElement(name: String, id: String?, class_: String?) : Abs
 }
 
 class TextElement(val text: String) : AbstractElement("TextElement") {
-    override fun render(builder: StringBuilder) {
+    override fun render(builder: Appendable) {
         builder.append(HtmlEscapers.htmlEscaper().escape(text))
     }
 }
 
 abstract class SingleElement(name: String, id: String?, class_: String?) : FindableElement(name = name, id = id, class_ = class_) {
-    override fun render(builder: StringBuilder) {
+    override fun render(builder: Appendable) {
         renderOpen(builder)
     }
 }
@@ -80,7 +80,7 @@ abstract class SingleElement(name: String, id: String?, class_: String?) : Finda
 abstract class Element(name: String, id: String?, class_: String?) : FindableElement(name = name, id = id, class_ = class_) {
     protected val children: MutableList<AbstractElement> = arrayListOf()
 
-    override fun render(builder: StringBuilder) {
+    override fun render(builder: Appendable) {
         renderOpen(builder)
         for (child in children) {
             child.render(builder)
@@ -100,7 +100,7 @@ abstract class ContainerElement(name: String, id: String?, class_: String?) : El
 class Html(lang: String? = null, init: Html.() -> Unit = {}) : Element(name = "html", id = null, class_ = null) {
     var lang by attributeHandler
 
-    override fun render(builder: StringBuilder) {
+    override fun render(builder: Appendable) {
         builder.append("<!DOCTYPE html>")
         super.render(builder)
     }
