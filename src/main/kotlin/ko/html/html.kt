@@ -42,12 +42,26 @@ abstract class AbstractElement(val elementName: String) {
 
     protected fun renderOpen(builder: StringBuilder) {
         builder.append("<").append(elementName)
-        attributes.map { it }
-                .sortBy { it.getKey() }
+        attributes
+                .map {
+                    it.getKey().replaceAll("[_]+$", "") to it.getValue()
+                }
+                .sortBy { it.first }
                 .forEach {
-                    builder.append(" ").append(it.getKey()).append("=\"").append(it.getValue()).append("\"")
+                    val (name, value) = it
+                    builder.append(" ").append(name).append("=\"").append(value).append("\"")
                 }
         builder.append(">")
+    }
+}
+
+abstract class FindableElement(name: String, id: String?, class_: String?) : AbstractElement(elementName = name) {
+    var id by attributeHandler
+    var class_ by attributeHandler
+
+    {
+        this.id = id
+        this.class_ = class_
     }
 }
 
@@ -57,13 +71,13 @@ class TextElement(val text: String) : AbstractElement("TextElement") {
     }
 }
 
-abstract class SingleElement(name: String) : AbstractElement(name) {
+abstract class SingleElement(name: String, id: String?, class_: String?) : FindableElement(name = name, id = id, class_ = class_) {
     override fun render(builder: StringBuilder) {
         renderOpen(builder)
     }
 }
 
-abstract class Element(name: String) : AbstractElement(name) {
+abstract class Element(name: String, id: String?, class_: String?) : FindableElement(name = name, id = id, class_ = class_) {
     protected val children: MutableList<AbstractElement> = arrayListOf()
 
     override fun render(builder: StringBuilder) {
@@ -75,7 +89,15 @@ abstract class Element(name: String) : AbstractElement(name) {
     }
 }
 
-class Html(lang: String? = null, init: Html.() -> Unit = {}) : Element("html") {
+abstract class ContainerElement(name: String, id: String?, class_: String?) : Element(name = name, id = id, class_ = class_) {
+    fun h1(id: String? = null, class_: String? = null, text: String? = null): H1 {
+        val h1 = H1(id = id, class_ = class_, text = text)
+        children.add(h1)
+        return h1
+    }
+}
+
+class Html(lang: String? = null, init: Html.() -> Unit = {}) : Element(name = "html", id = null, class_ = null) {
     var lang by attributeHandler
 
     override fun render(builder: StringBuilder) {
@@ -95,7 +117,7 @@ class Html(lang: String? = null, init: Html.() -> Unit = {}) : Element("html") {
     }
 }
 
-class Head(init: Head.() -> Unit = {}) : Element("head") {
+class Head(init: Head.() -> Unit = {}) : Element(name = "head", id = null, class_ = null) {
     {
         init()
     }
@@ -119,7 +141,7 @@ class Head(init: Head.() -> Unit = {}) : Element("head") {
     }
 }
 
-class Meta(charset: String? = null, httpEquiv: String? = null, name: String? = null, content: String? = null, init: Meta.() -> Unit = {}) : SingleElement("meta") {
+class Meta(charset: String? = null, httpEquiv: String? = null, name: String? = null, content: String? = null, init: Meta.() -> Unit = {}) : SingleElement(name = "meta", id = null, class_ = null) {
     var charset by attributeHandler
     var httpEquiv by attributeHandler
     var name by attributeHandler
@@ -134,7 +156,7 @@ class Meta(charset: String? = null, httpEquiv: String? = null, name: String? = n
     }
 }
 
-class Title(text: String? = null) : Element("title") {
+class Title(text: String? = null) : Element(name = "title", id = null, class_ = null) {
     {
         if (text != null) {
             children.add(TextElement(text))
@@ -142,7 +164,7 @@ class Title(text: String? = null) : Element("title") {
     }
 }
 
-class Link(href: String? = null, rel: String? = null) : SingleElement("link") {
+class Link(href: String? = null, rel: String? = null) : SingleElement(name = "link", id = null, class_ = null) {
     var href by attributeHandler
     var rel by attributeHandler
 
@@ -152,25 +174,19 @@ class Link(href: String? = null, rel: String? = null) : SingleElement("link") {
     }
 }
 
-class Body(init: Body.() -> Unit = {}) : Element("body") {
+class Body(id: String? = null, class_: String? = null, init: Body.() -> Unit = {}) : ContainerElement(name = "body", id = id, class_ = class_) {
     {
         init()
     }
 
-    fun script(src: String? = null): Script {
-        val script = Script(src)
+    fun script(id: String? = null, class_: String? = null, src: String? = null): Script {
+        val script = Script(id = id, class_ = class_, src = src)
         children.add(script)
         return script
     }
-
-    fun h1(text: String? = null): H1 {
-        val h1 = H1(text)
-        children.add(h1)
-        return h1
-    }
 }
 
-class Script(src: String? = null) : Element("script") {
+class Script(id: String? = null, class_: String? = null, src: String? = null) : Element(name = "script", id = id, class_ = class_) {
     var src by attributeHandler
 
     {
@@ -178,10 +194,12 @@ class Script(src: String? = null) : Element("script") {
     }
 }
 
-class H1(text: String? = null) : Element("h1") {
+class H1(id: String? = null, class_: String? = null, text: String? = null) : Element(name = "h1", id = id, class_ = class_) {
     {
         if (text != null) {
             children.add(TextElement(text))
         }
     }
 }
+
+class Div(id: String? = null, class_: String? = null) : ContainerElement("div", id, class_)

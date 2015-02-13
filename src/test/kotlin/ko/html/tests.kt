@@ -11,6 +11,7 @@ import ko.html.TextElement
 import ko.html.Link
 import ko.html.Script
 import ko.html.H1
+import ko.html.Div
 
 class HtmlTest {
     Test fun renderHtml() {
@@ -55,7 +56,7 @@ class BodyTest {
 
     Test fun h1() {
         val body = Body {
-            h1("Hello, world!")
+            h1(text = "Hello, world!")
         }
 
         Assert.assertEquals("<body><h1>Hello, world!</h1></body>", body.toString())
@@ -70,7 +71,7 @@ class HeadTest() {
 
     Test fun title() {
         val head = Head {
-            title("untitled")
+            title(text = "untitled")
         }
         Assert.assertEquals("<head><title>untitled</title></head>", head.toString())
     }
@@ -146,14 +147,31 @@ class ScriptTest {
     }
 
     Test fun source() {
-        val script = Script("js/bootstrap.min.js")
+        val script = Script(src = "js/bootstrap.min.js")
         Assert.assertEquals("<script src=\"js/bootstrap.min.js\"></script>", script.toString())
     }
 }
 
 class H1Test {
     Test fun render() {
-        val h1 = H1("Hello, world!")
+        val h1 = H1(text = "Hello, world!")
         Assert.assertEquals("<h1>Hello, world!</h1>", h1.toString())
+    }
+}
+
+class DivTest {
+    Test fun render() {
+        val div = Div()
+        Assert.assertEquals("<div></div>", div.toString())
+    }
+
+    Test fun id() {
+        val div = Div(id = "id")
+        Assert.assertEquals("<div id=\"id\"></div>", div.toString())
+    }
+
+    Test fun class_() {
+        val div = Div(class_ = "class1 class2")
+        Assert.assertEquals("<div class=\"class1 class2\"></div>", div.toString())
     }
 }
