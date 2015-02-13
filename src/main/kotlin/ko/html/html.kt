@@ -111,6 +111,12 @@ class Head(init: Head.() -> Unit = {}) : Element("head") {
         children.add(title)
         return title
     }
+
+    fun link(href: String? = null, rel: String? = null): Link {
+        val link = Link(href = href, rel = rel)
+        children.add(link)
+        return link
+    }
 }
 
 class Meta(charset: String? = null, httpEquiv: String? = null, name: String? = null, content: String? = null, init: Meta.() -> Unit = {}) : SingleElement("meta") {

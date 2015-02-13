@@ -56,6 +56,13 @@ class HeadTest() {
         }
         Assert.assertEquals("<head><title>untitled</title></head>", head.toString())
     }
+
+    Test fun link() {
+        val head = Head {
+            link(href = "css/bootstrap.min.css", rel = "stylesheet")
+        }
+        Assert.assertEquals("<head><link href=\"css/bootstrap.min.css\" rel=\"stylesheet\"></head>", head.toString())
+    }
 }
 
 class MetaTest() {
