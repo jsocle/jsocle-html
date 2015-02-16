@@ -90,16 +90,21 @@ abstract class Element(name: String, id: String?, class_: String?) : FindableEle
 }
 
 abstract class ContainerElement(name: String, id: String?, class_: String?) : Element(name = name, id = id, class_ = class_) {
+    private fun addChild<T : AbstractElement>(e: T): T {
+        children.add(e)
+        return e
+    }
+
     fun h1(id: String? = null, class_: String? = null, text: String? = null): H1 {
-        val h1 = H1(id = id, class_ = class_, text = text)
-        children.add(h1)
-        return h1
+        return addChild(H1(id = id, class_ = class_, text = text))
     }
 
     fun div(id: String? = null, class_: String? = null, text: String? = null, init: Div.() -> Unit = {}): Div {
-        val div = Div(id = id, class_ = class_, text = text, init = init)
-        children.add(div)
-        return div
+        return addChild(Div(id = id, class_ = class_, text = text, init = init))
+    }
+
+    fun table(id: String? = null, class_: String? = null, init: Table.() -> Unit = {}): Table {
+        return addChild(Table(id = id, class_ = class_, init = init))
     }
 }
 
@@ -222,3 +227,5 @@ class Div(id: String? = null, class_: String? = null, text: String? = null, init
         init()
     }
 }
+
+class Table(id: String? = null, class_: String? = null, init: Table.() -> Unit = {}) : Element(name = "table", id = id, class_ = class_)

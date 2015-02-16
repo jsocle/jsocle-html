@@ -12,6 +12,7 @@ import ko.html.Link
 import ko.html.Script
 import ko.html.H1
 import ko.html.Div
+import ko.html.Table
 
 class HtmlTest {
     Test fun renderHtml() {
@@ -79,6 +80,15 @@ class BodyTest {
         }
 
         Assert.assertEquals("<body><div id=\"test\">div</div></body>", body.toString())
+    }
+
+    Test fun table() {
+        val body = Body {
+            table {
+            }
+        }
+
+        Assert.assertEquals("<body><table></table></body>", body.toString())
     }
 }
 
@@ -192,5 +202,12 @@ class DivTest {
     Test fun class_() {
         val div = Div(class_ = "class1 class2")
         Assert.assertEquals("<div class=\"class1 class2\"></div>", div.toString())
+    }
+}
+
+class TableTest {
+    Test fun render() {
+        val table = Table()
+        Assert.assertEquals("<table></table>", table.toString())
     }
 }
