@@ -246,9 +246,22 @@ class Tr(id: String? = null, class_: String? = null, init: Tr.() -> Unit = {}) :
     fun td(id: String? = null, class_: String? = null, text: String? = null, init: Td.() -> Unit = {}) : Td {
         return addChild(Td(id = id,  class_ = class_, text = text, init = init))
     }
+
+    fun th(id: String? = null, class_: String? = null, text: String? = null, init: Th.() -> Unit = {}) : Th {
+        return addChild(Th(id = id,  class_ = class_, text = text, init = init))
+    }
 }
 
 class Td(id: String? = null, class_: String? = null, text: String? = null, init: Td.() -> Unit = {}) : ContainerElement(name = "td", id = id, class_ = class_) {
+    {
+        if (text != null) {
+            children.add(TextElement(text = text))
+        }
+        init()
+    }
+}
+
+class Th(id: String? = null, class_: String? = null, text: String? = null, init: Th.() -> Unit = {}) : ContainerElement(name = "th", id = id, class_ = class_) {
     {
         if (text != null) {
             children.add(TextElement(text = text))

@@ -15,6 +15,7 @@ import ko.html.Div
 import ko.html.Table
 import ko.html.Tr
 import ko.html.Td
+import ko.html.Th
 
 class HtmlTest {
     Test fun renderHtml() {
@@ -245,6 +246,16 @@ class TrTest {
 
         Assert.assertEquals("<tr><td><div></div></td></tr>", tr.toString())
     }
+
+    Test fun th() {
+        val tr = Tr {
+            th {
+                div()
+            }
+        }
+
+        Assert.assertEquals("<tr><th><div></div></th></tr>", tr.toString())
+    }
 }
 
 
@@ -257,5 +268,12 @@ class TdTest {
     Test fun text() {
         val td = Td(text = "text")
         Assert.assertEquals("<td>text</td>", td.toString())
+    }
+}
+
+class ThTest {
+    Test fun render() {
+        val th = Th()
+        Assert.assertEquals("<th></th>", th.toString())
     }
 }
