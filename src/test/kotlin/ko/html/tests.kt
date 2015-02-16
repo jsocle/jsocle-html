@@ -13,6 +13,8 @@ import ko.html.Script
 import ko.html.H1
 import ko.html.Div
 import ko.html.Table
+import ko.html.Tr
+import ko.html.Td
 
 class HtmlTest {
     Test fun renderHtml() {
@@ -209,5 +211,51 @@ class TableTest {
     Test fun render() {
         val table = Table()
         Assert.assertEquals("<table></table>", table.toString())
+    }
+
+    Test fun init() {
+        val table = Table {
+            id = "id"
+        }
+        Assert.assertEquals("<table id=\"id\"></table>", table.toString())
+    }
+
+    Test fun tr() {
+        val table = Table {
+            tr {
+
+            }
+        }
+        Assert.assertEquals("<table><tr></tr></table>", table.toString())
+    }
+}
+
+class TrTest {
+    Test fun render() {
+        val tr = Tr()
+        Assert.assertEquals("<tr></tr>", tr.toString())
+    }
+
+    Test fun td() {
+        val tr = Tr {
+            td {
+                div()
+            }
+        }
+
+        Assert.assertEquals("<tr><td><div></div></td></tr>", tr.toString())
+    }
+}
+
+
+class TdTest {
+    Test fun render() {
+        val td = Td()
+        Assert.assertEquals("<td></td>", td.toString())
+    }
+
+    Test fun text() {
+        val td = Td(text = "text")
+        Assert.assertEquals("<td>text</td>", td.toString())
     }
 }

@@ -80,6 +80,11 @@ abstract class SingleElement(name: String, id: String?, class_: String?) : Finda
 abstract class Element(name: String, id: String?, class_: String?) : FindableElement(name = name, id = id, class_ = class_) {
     protected val children: MutableList<AbstractElement> = arrayListOf()
 
+    protected fun addChild<T : AbstractElement>(e: T): T {
+        children.add(e)
+        return e
+    }
+
     override fun render(builder: Appendable) {
         renderOpen(builder)
         for (child in children) {
@@ -90,11 +95,6 @@ abstract class Element(name: String, id: String?, class_: String?) : FindableEle
 }
 
 abstract class ContainerElement(name: String, id: String?, class_: String?) : Element(name = name, id = id, class_ = class_) {
-    private fun addChild<T : AbstractElement>(e: T): T {
-        children.add(e)
-        return e
-    }
-
     fun h1(id: String? = null, class_: String? = null, text: String? = null): H1 {
         return addChild(H1(id = id, class_ = class_, text = text))
     }
@@ -228,4 +228,31 @@ class Div(id: String? = null, class_: String? = null, text: String? = null, init
     }
 }
 
-class Table(id: String? = null, class_: String? = null, init: Table.() -> Unit = {}) : Element(name = "table", id = id, class_ = class_)
+class Table(id: String? = null, class_: String? = null, init: Table.() -> Unit = {}) : Element(name = "table", id = id, class_ = class_) {
+    {
+        init()
+    }
+
+    fun tr(id: String? = null, class_: String? = null, init: Tr.() -> Unit = {}): Tr {
+        return addChild(Tr(id = id, class_ = class_, init = init))
+    }
+}
+
+class Tr(id: String? = null, class_: String? = null, init: Tr.() -> Unit = {}) : Element(name = "tr", id = id, class_ = class_) {
+    {
+        init()
+    }
+
+    fun td(id: String? = null, class_: String? = null, text: String? = null, init: Td.() -> Unit = {}) : Td {
+        return addChild(Td(id = id,  class_ = class_, text = text, init = init))
+    }
+}
+
+class Td(id: String? = null, class_: String? = null, text: String? = null, init: Td.() -> Unit = {}) : ContainerElement(name = "td", id = id, class_ = class_) {
+    {
+        if (text != null) {
+            children.add(TextElement(text = text))
+        }
+        init()
+    }
+}
