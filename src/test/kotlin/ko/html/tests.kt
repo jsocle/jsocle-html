@@ -16,6 +16,7 @@ import ko.html.Table
 import ko.html.Tr
 import ko.html.Td
 import ko.html.Th
+import ko.html.A
 
 class HtmlTest {
     Test fun renderHtml() {
@@ -92,6 +93,15 @@ class BodyTest {
         }
 
         Assert.assertEquals("<body><table></table></body>", body.toString())
+    }
+
+    Test fun a() {
+        val body = Body {
+            a(text = "text") {
+                href = "#"
+            }
+        }
+        Assert.assertEquals("<body><a href=\"#\">text</a></body>", body.toString())
     }
 }
 
@@ -275,5 +285,23 @@ class ThTest {
     Test fun render() {
         val th = Th()
         Assert.assertEquals("<th></th>", th.toString())
+    }
+}
+
+
+class ATest {
+    Test fun render() {
+        val a = A()
+        Assert.assertEquals("<a></a>", a.toString())
+    }
+
+    Test fun text() {
+        val a = A(text = "text")
+        Assert.assertEquals("<a>text</a>", a.toString())
+    }
+
+    Test fun href() {
+        val a = A(href = "#")
+        Assert.assertEquals("<a href=\"#\"></a>", a.toString())
     }
 }

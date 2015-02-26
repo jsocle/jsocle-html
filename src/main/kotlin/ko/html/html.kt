@@ -106,6 +106,10 @@ abstract class ContainerElement(name: String, id: String?, class_: String?) : El
     fun table(id: String? = null, class_: String? = null, init: Table.() -> Unit = {}): Table {
         return addChild(Table(id = id, class_ = class_, init = init))
     }
+
+    fun a(id: String? = null, class_: String? = null, text: String? = null, href: String? = null, init: A.() -> Unit = {}) : A {
+        return addChild(A(id = id,  class_ = class_, text = text, href = href, init = init))
+    }
 }
 
 class Html(lang: String? = null, init: Html.() -> Unit = {}) : Element(name = "html", id = null, class_ = null) {
@@ -243,12 +247,12 @@ class Tr(id: String? = null, class_: String? = null, init: Tr.() -> Unit = {}) :
         init()
     }
 
-    fun td(id: String? = null, class_: String? = null, text: String? = null, init: Td.() -> Unit = {}) : Td {
-        return addChild(Td(id = id,  class_ = class_, text = text, init = init))
+    fun td(id: String? = null, class_: String? = null, text: String? = null, init: Td.() -> Unit = {}): Td {
+        return addChild(Td(id = id, class_ = class_, text = text, init = init))
     }
 
-    fun th(id: String? = null, class_: String? = null, text: String? = null, init: Th.() -> Unit = {}) : Th {
-        return addChild(Th(id = id,  class_ = class_, text = text, init = init))
+    fun th(id: String? = null, class_: String? = null, text: String? = null, init: Th.() -> Unit = {}): Th {
+        return addChild(Th(id = id, class_ = class_, text = text, init = init))
     }
 }
 
@@ -266,6 +270,18 @@ class Th(id: String? = null, class_: String? = null, text: String? = null, init:
         if (text != null) {
             children.add(TextElement(text = text))
         }
+        init()
+    }
+}
+
+class A(id: String? = null, class_: String? = null, text: String? = null, href: String? = null, init: A.() -> Unit = {}) : ContainerElement("a", id, class_) {
+    var href by attributeHandler
+
+    {
+        if (text != null) {
+            children.add(TextElement(text = text))
+        }
+        this.href = href
         init()
     }
 }
