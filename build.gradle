@@ -17,6 +17,11 @@ repositories {
     mavenCentral()
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
 dependencies {
     compile(
             "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion", 'com.google.guava:guava:18.0'
