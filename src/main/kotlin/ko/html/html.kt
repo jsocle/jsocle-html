@@ -59,7 +59,7 @@ abstract class FindableElement(name: String, id: String?, class_: String?) : Abs
     var id by attributeHandler
     var class_ by attributeHandler
 
-    {
+    init {
         this.id = id
         this.class_ = class_
     }
@@ -115,7 +115,7 @@ abstract class ContainerElement(name: String, id: String?, class_: String?) : El
 class Html(lang: String? = null, init: Html.() -> Unit = {}) : Element(name = "html", id = null, class_ = null) {
     var lang by attributeHandler
 
-    {
+    init {
         this.lang = lang
         init()
     }
@@ -139,7 +139,7 @@ class Html(lang: String? = null, init: Html.() -> Unit = {}) : Element(name = "h
 }
 
 class Head(init: Head.() -> Unit = {}) : Element(name = "head", id = null, class_ = null) {
-    {
+    init {
         init()
     }
 
@@ -168,7 +168,7 @@ class Meta(charset: String? = null, httpEquiv: String? = null, name: String? = n
     var name by attributeHandler
     var content by attributeHandler
 
-    {
+    init {
         this.charset = charset
         this.httpEquiv = httpEquiv
         this.name = name
@@ -178,7 +178,7 @@ class Meta(charset: String? = null, httpEquiv: String? = null, name: String? = n
 }
 
 class Title(text: String? = null) : Element(name = "title", id = null, class_ = null) {
-    {
+    init {
         if (text != null) {
             children.add(TextElement(text))
         }
@@ -189,14 +189,14 @@ class Link(href: String? = null, rel: String? = null) : SingleElement(name = "li
     var href by attributeHandler
     var rel by attributeHandler
 
-    {
+    init {
         this.href = href
         this.rel = rel
     }
 }
 
 class Body(id: String? = null, class_: String? = null, init: Body.() -> Unit = {}) : ContainerElement(name = "body", id = id, class_ = class_) {
-    {
+    init {
         init()
     }
 
@@ -210,13 +210,13 @@ class Body(id: String? = null, class_: String? = null, init: Body.() -> Unit = {
 class Script(id: String? = null, class_: String? = null, src: String? = null) : Element(name = "script", id = id, class_ = class_) {
     var src by attributeHandler
 
-    {
+    init {
         this.src = src
     }
 }
 
 class H1(id: String? = null, class_: String? = null, text: String? = null) : Element(name = "h1", id = id, class_ = class_) {
-    {
+    init {
         if (text != null) {
             children.add(TextElement(text = text))
         }
@@ -224,7 +224,7 @@ class H1(id: String? = null, class_: String? = null, text: String? = null) : Ele
 }
 
 class Div(id: String? = null, class_: String? = null, text: String? = null, init: Div.() -> Unit = {}) : ContainerElement("div", id, class_) {
-    {
+    init {
         if (text != null) {
             children.add(TextElement(text = text))
         }
@@ -233,7 +233,7 @@ class Div(id: String? = null, class_: String? = null, text: String? = null, init
 }
 
 class Table(id: String? = null, class_: String? = null, init: Table.() -> Unit = {}) : Element(name = "table", id = id, class_ = class_) {
-    {
+    init {
         init()
     }
 
@@ -243,7 +243,7 @@ class Table(id: String? = null, class_: String? = null, init: Table.() -> Unit =
 }
 
 class Tr(id: String? = null, class_: String? = null, init: Tr.() -> Unit = {}) : Element(name = "tr", id = id, class_ = class_) {
-    {
+    init {
         init()
     }
 
@@ -257,7 +257,7 @@ class Tr(id: String? = null, class_: String? = null, init: Tr.() -> Unit = {}) :
 }
 
 class Td(id: String? = null, class_: String? = null, text: String? = null, init: Td.() -> Unit = {}) : ContainerElement(name = "td", id = id, class_ = class_) {
-    {
+    init {
         if (text != null) {
             children.add(TextElement(text = text))
         }
@@ -266,7 +266,7 @@ class Td(id: String? = null, class_: String? = null, text: String? = null, init:
 }
 
 class Th(id: String? = null, class_: String? = null, text: String? = null, init: Th.() -> Unit = {}) : ContainerElement(name = "th", id = id, class_ = class_) {
-    {
+    init {
         if (text != null) {
             children.add(TextElement(text = text))
         }
@@ -277,7 +277,7 @@ class Th(id: String? = null, class_: String? = null, text: String? = null, init:
 class A(id: String? = null, class_: String? = null, text: String? = null, href: String? = null, init: A.() -> Unit = {}) : ContainerElement("a", id, class_) {
     var href by attributeHandler
 
-    {
+    init {
         if (text != null) {
             children.add(TextElement(text = text))
         }
