@@ -1,8 +1,8 @@
 package ko.html
 
-import kotlin.properties.ReadWriteProperty
 import com.google.common.base.CaseFormat
 import com.google.common.html.HtmlEscapers
+import kotlin.properties.ReadWriteProperty
 
 fun String.hyphens(): String {
     return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, this)
@@ -107,8 +107,12 @@ abstract class ContainerElement(name: String, id: String?, class_: String?) : El
         return addChild(Table(id = id, class_ = class_, init = init))
     }
 
-    fun a(id: String? = null, class_: String? = null, text: String? = null, href: String? = null, init: A.() -> Unit = {}) : A {
-        return addChild(A(id = id,  class_ = class_, text = text, href = href, init = init))
+    fun a(id: String? = null, class_: String? = null, text: String? = null, href: String? = null, init: A.() -> Unit = {}): A {
+        return addChild(A(id = id, class_ = class_, text = text, href = href, init = init))
+    }
+
+    fun form(id: String? = null, class_: String? = null, action: String? = null, method: String? = null, init: Form.() -> Unit = {}): Form {
+        return addChild(Form(id = id, class_ = class_, action = action, method = method, init = init))
     }
 }
 
@@ -282,6 +286,17 @@ class A(id: String? = null, class_: String? = null, text: String? = null, href: 
             children.add(TextElement(text = text))
         }
         this.href = href
+        init()
+    }
+}
+
+class Form(id: String? = null, class_: String? = null, action: String? = null, method: String? = null, init: Form.() -> Unit = {}) : ContainerElement("form", id = id, class_ = class_) {
+    var action by attributeHandler
+    var method by attributeHandler
+
+    init {
+        this.action = action
+        this.method = method
         init()
     }
 }

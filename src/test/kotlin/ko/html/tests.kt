@@ -1,22 +1,8 @@
 package ko.html.tests
 
+import ko.html.*
 import org.junit.Test
-import ko.html.Html
-import ko.html.Body
-import ko.html.Head
-import ko.html.Meta
 import org.junit.Assert
-import ko.html.Title
-import ko.html.TextElement
-import ko.html.Link
-import ko.html.Script
-import ko.html.H1
-import ko.html.Div
-import ko.html.Table
-import ko.html.Tr
-import ko.html.Td
-import ko.html.Th
-import ko.html.A
 
 class HtmlTest {
     Test fun renderHtml() {
@@ -102,6 +88,14 @@ class BodyTest {
             }
         }
         Assert.assertEquals("<body><a href=\"#\">text</a></body>", body.toString())
+    }
+
+    Test fun form() {
+        val body = Body {
+            form() {
+            }
+        }
+        Assert.assertEquals("<body><form></form></body>", body.toString())
     }
 }
 
@@ -303,5 +297,13 @@ class ATest {
     Test fun href() {
         val a = A(href = "#")
         Assert.assertEquals("<a href=\"#\"></a>", a.toString())
+    }
+}
+
+
+class FormTest {
+    Test fun render() {
+        val form = Form(action = "url", method = "method")
+        Assert.assertEquals("<form action=\"url\" method=\"method\"></form>", form.toString())
     }
 }
