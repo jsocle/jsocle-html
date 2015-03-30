@@ -1,4 +1,11 @@
 build/
 .gradle/
+*.tmp
+*.swp
+
 .idea/
 *.iml
+
+venv/
+*.pyc
+*.egg-info
