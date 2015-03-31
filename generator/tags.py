@@ -1,6 +1,5 @@
 import wget
 
-names = open('khtml/names.py', 'w')
 for tag in map(lambda x: x.strip(), open('tags')):
     tag = tag[1:-1]
     if tag[0] == '!':
@@ -15,9 +14,6 @@ for tag in map(lambda x: x.strip(), open('tags')):
     if url_name:
         url = 'http://www.w3schools.com/tags/tag_%s.asp' % url_name
         wget.download(url, out='w3schools/' + url_name + '.html')
-    if name == 'del':
-        name = 'del_'
-    print >> names, "%s = '%s'" % (name, tag)
 
 wget.download('http://www.w3schools.com/tags/ref_standardattributes.asp', out='w3schools/global_attributes.html')
 wget.download('http://www.w3schools.com/tags/ref_eventattributes.asp', out='w3schools/global_events.html')
