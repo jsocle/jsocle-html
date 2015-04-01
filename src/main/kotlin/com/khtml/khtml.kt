@@ -8,8 +8,8 @@ fun String.hyphens(): String {
     return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, this)
 }
 
-object attributeHandler : ReadWriteProperty<BaseElement, String?> {
-    override fun get(thisRef: BaseElement, desc: PropertyMetadata): String? {
+object attributeHandler : ReadWriteProperty<BaseEmptyElement, String?> {
+    override fun get(thisRef: BaseEmptyElement, desc: PropertyMetadata): String? {
         val name = desc.name.hyphens()
         if (thisRef.attributes.containsKey(name)) {
             return thisRef.attributes[name]
@@ -17,7 +17,7 @@ object attributeHandler : ReadWriteProperty<BaseElement, String?> {
         return null
     }
 
-    override fun set(thisRef: BaseElement, desc: PropertyMetadata, value: String?) {
+    override fun set(thisRef: BaseEmptyElement, desc: PropertyMetadata, value: String?) {
         val name = desc.name.hyphens()
         if (value != null) {
             thisRef.attributes.put(name, value)
@@ -29,7 +29,7 @@ object attributeHandler : ReadWriteProperty<BaseElement, String?> {
     }
 }
 
-abstract class  AbstractElement {
+abstract class Node {
     abstract fun render(builder: Appendable)
 
     override fun toString(): String {
@@ -39,22 +39,11 @@ abstract class  AbstractElement {
     }
 }
 
-abstract class BaseElement(public val elementName: String, text_: String? = null) : AbstractElement() {
+abstract class BaseEmptyElement(public val elementName: String) : Node() {
     public val attributes: MutableMap<String, String> = hashMapOf()
-    public val children: List<AbstractElement> = arrayListOf()
-
-    init {
-        if (text_ != null) {
-            (children as ArrayList<AbstractElement>).add(TextElement(text_))
-        }
-    }
 
     override fun render(builder: Appendable) {
         renderOpen(builder)
-        for (child in children) {
-            child.render(builder)
-        }
-        builder.append("</").append(elementName).append(">")
     }
 
     protected fun renderOpen(builder: Appendable) {
@@ -72,7 +61,26 @@ abstract class BaseElement(public val elementName: String, text_: String? = null
     }
 }
 
-class TextElement(public val text: String): AbstractElement() {
+abstract class BaseElement(elementName: String, text_: String? = null) : BaseEmptyElement(elementName = elementName) {
+    public val children: List<Node> = arrayListOf()
+
+    init {
+        if (text_ != null) {
+            (children as ArrayList<Node>).add(TextNode(text_))
+        }
+    }
+
+    override fun render(builder: Appendable) {
+        super.render(builder)
+        for (child in children) {
+            child.render(builder)
+        }
+        builder.append("</").append(elementName).append(">")
+    }
+
+}
+
+class TextNode(public val text: String) : Node() {
     override fun render(builder: Appendable) {
         builder.append(text)
     }

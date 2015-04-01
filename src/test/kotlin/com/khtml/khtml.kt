@@ -1,6 +1,7 @@
 package com.khtml
 
 import com.khtml.elements.Div
+import com.khtml.elements.Img
 import org.junit.Assert
 import org.junit.Test
 
@@ -22,5 +23,9 @@ class KHtmlTest {
     fun testText() {
         Assert.assertEquals("<div>text</div>", Div(text_ = "text").toString())
     }
-}
 
+    Test
+    fun testSingleNode() {
+        Assert.assertEquals("<img src=\"icon.png\">", Img(src = "icon.png").toString())
+    }
+}

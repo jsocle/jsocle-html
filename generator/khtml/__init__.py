@@ -122,10 +122,14 @@ tags = [
     'wbr',
 ]
 
+empty_tags = ['br', 'hr', 'meta', 'link', 'base', 'link', 'meta', 'hr', 'br', 'img', 'embed', 'param', 'area', 'col',
+              'input']
+
 from attributes import parse, global_attributes, global_events
 
 if __name__ == '__main__':
     from jinja2 import Template
+
     element_attrs = sorted(set(global_attributes + global_events))
     elements = []
     for i in tags:
@@ -135,7 +139,8 @@ if __name__ == '__main__':
             (
                 i, i.capitalize(),
                 all_attrs,
-                sorted(i for i in my_attrs if i not in element_attrs)
+                sorted(j for j in my_attrs if j not in element_attrs),
+                i in empty_tags
             )
         )
     print(Template(open('khtml/elements.kt').read()).render(element_attrs=element_attrs, elements=elements))
