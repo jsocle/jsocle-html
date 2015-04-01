@@ -1,6 +1,7 @@
 package com.khtml
 
 import com.google.common.base.CaseFormat
+import java.util.ArrayList
 import kotlin.properties.ReadWriteProperty
 
 fun String.hyphens(): String {
@@ -28,22 +29,32 @@ object attributeHandler : ReadWriteProperty<BaseElement, String?> {
     }
 }
 
-abstract class BaseElement(public val elementName: String) {
-    public val attributes: MutableMap<String, String> = hashMapOf()
-    public val children: List<Element> = arrayListOf()
-
-    fun render(builder: Appendable) {
-        renderOpen(builder)
-        for (child in children) {
-            child.render(builder)
-        }
-        builder.append("</").append(elementName).append(">")
-    }
+abstract class  AbstractElement {
+    abstract fun render(builder: Appendable)
 
     override fun toString(): String {
         val builder = StringBuilder()
         render(builder)
         return builder.toString()
+    }
+}
+
+abstract class BaseElement(public val elementName: String, text_: String? = null) : AbstractElement() {
+    public val attributes: MutableMap<String, String> = hashMapOf()
+    public val children: List<AbstractElement> = arrayListOf()
+
+    init {
+        if (text_ != null) {
+            (children as ArrayList<AbstractElement>).add(TextElement(text_))
+        }
+    }
+
+    override fun render(builder: Appendable) {
+        renderOpen(builder)
+        for (child in children) {
+            child.render(builder)
+        }
+        builder.append("</").append(elementName).append(">")
     }
 
     protected fun renderOpen(builder: Appendable) {
@@ -58,5 +69,11 @@ abstract class BaseElement(public val elementName: String) {
                     builder.append(" ").append(name).append("=\"").append(value).append("\"")
                 }
         builder.append(">")
+    }
+}
+
+class TextElement(public val text: String): AbstractElement() {
+    override fun render(builder: Appendable) {
+        builder.append(text)
     }
 }
