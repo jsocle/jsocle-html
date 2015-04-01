@@ -134,7 +134,10 @@ def func_name(name):
     return name
 
 
+import string
+
 from attributes import parse, global_attributes, global_events
+
 
 if __name__ == '__main__':
     from jinja2 import Template
@@ -150,7 +153,10 @@ if __name__ == '__main__':
             i in empty_tags, func_name(i)
         )
         elements.append(row)
-    element_kt = Template(open('khtml/element.kt').read()).render(element_attrs=element_attrs, elements=elements)
+    cases = [(c, i == 0 and '0' or string.ascii_lowercase[i - 1]) for i, c in enumerate(string.ascii_lowercase)]
+    element_kt = Template(open('khtml/element.kt').read()).render(
+        element_attrs=element_attrs, elements=elements, cases=cases
+    )
     elements_kt = Template(open('khtml/elements.kt').read()).render(element_attrs=element_attrs, elements=elements)
     open('../src/main/kotlin/com/khtml/element.kt', 'w').write(element_kt)
     open('../src/main/kotlin/com/khtml/elements.kt', 'w').write(elements_kt)
