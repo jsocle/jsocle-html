@@ -60,8 +60,3 @@ abstract class BaseElement(public val elementName: String) {
         builder.append(">")
     }
 }
-
-fun main(args: Array<String>) {
-    print(A(href="text"))
-    print(Div())
-}
