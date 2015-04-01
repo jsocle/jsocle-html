@@ -1,6 +1,7 @@
 package com.khtml
 
 import com.khtml.elements.Div
+import com.khtml.elements.Html
 import com.khtml.elements.Img
 import org.junit.Assert
 import org.junit.Test
@@ -27,5 +28,19 @@ class KHtmlTest {
     Test
     fun testSingleNode() {
         Assert.assertEquals("<img src=\"icon.png\">", Img(src = "icon.png").toString())
+    }
+
+    Test
+    fun testHtml() {
+        val html = Html {
+            body {
+                div(class_ = "container") {
+                    h1("title")
+                }
+            }
+        }
+        Assert.assertEquals(
+                "<!DOCTYPE html><html><body><div class=\"container\"><h1>title</h1></div></body></html>", html.toString()
+        )
     }
 }

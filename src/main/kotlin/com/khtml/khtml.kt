@@ -1,6 +1,7 @@
 package com.khtml
 
 import com.google.common.base.CaseFormat
+import com.khtml.elements.Html
 import java.util.ArrayList
 import kotlin.properties.ReadWriteProperty
 
@@ -30,9 +31,9 @@ object attributeHandler : ReadWriteProperty<BaseEmptyElement, String?> {
 }
 
 abstract class Node {
-    abstract fun render(builder: Appendable)
+    abstract public fun render(builder: Appendable)
 
-    override fun toString(): String {
+    override public fun toString(): String {
         val builder = StringBuilder()
         render(builder)
         return builder.toString()
@@ -42,11 +43,14 @@ abstract class Node {
 abstract class BaseEmptyElement(public val elementName: String) : Node() {
     public val attributes: MutableMap<String, String> = hashMapOf()
 
-    override fun render(builder: Appendable) {
+    override public fun render(builder: Appendable) {
+        if (this is Html) {
+            builder.append("<!DOCTYPE html>")
+        }
         renderOpen(builder)
     }
 
-    protected fun renderOpen(builder: Appendable) {
+    private fun renderOpen(builder: Appendable) {
         builder.append("<").append(elementName)
         attributes
                 .map {
@@ -66,16 +70,20 @@ abstract class BaseElement(elementName: String, text_: String? = null) : BaseEmp
 
     init {
         if (text_ != null) {
-            (children as ArrayList<Node>).add(TextNode(text_))
+            addNode(TextNode(text_))
         }
     }
 
-    override fun render(builder: Appendable) {
+    override public fun render(builder: Appendable) {
         super.render(builder)
         for (child in children) {
             child.render(builder)
         }
         builder.append("</").append(elementName).append(">")
+    }
+
+    public fun addNode(node: Node) {
+        (children as ArrayList<Node>).add(node)
     }
 
 }

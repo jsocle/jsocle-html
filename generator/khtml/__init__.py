@@ -125,6 +125,15 @@ tags = [
 empty_tags = ['br', 'hr', 'meta', 'link', 'base', 'link', 'meta', 'hr', 'br', 'img', 'embed', 'param', 'area', 'col',
               'input']
 
+keywords = ['object', 'var']
+
+
+def func_name(name):
+    if name in keywords:
+        name += '_'
+    return name
+
+
 from attributes import parse, global_attributes, global_events
 
 if __name__ == '__main__':
@@ -135,12 +144,13 @@ if __name__ == '__main__':
     for i in tags:
         my_attrs = parse(i)
         all_attrs = sorted(set(element_attrs + my_attrs))
-        elements.append(
-            (
-                i, i.capitalize(),
-                all_attrs,
-                sorted(j for j in my_attrs if j not in element_attrs),
-                i in empty_tags
-            )
+        row = (
+            i, i.capitalize(), all_attrs,
+            sorted(j for j in my_attrs if j not in element_attrs),
+            i in empty_tags, func_name(i)
         )
-    print(Template(open('khtml/elements.kt').read()).render(element_attrs=element_attrs, elements=elements))
+        elements.append(row)
+    element_kt = Template(open('khtml/element.kt').read()).render(element_attrs=element_attrs, elements=elements)
+    elements_kt = Template(open('khtml/elements.kt').read()).render(element_attrs=element_attrs, elements=elements)
+    open('../src/main/kotlin/com/khtml/element.kt', 'w').write(element_kt)
+    open('../src/main/kotlin/com/khtml/elements.kt', 'w').write(elements_kt)
