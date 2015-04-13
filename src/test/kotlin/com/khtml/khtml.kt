@@ -3,6 +3,7 @@ package com.khtml
 import com.khtml.elements.Div
 import com.khtml.elements.Html
 import com.khtml.elements.Img
+import com.khtml.extentions.addClass
 import org.junit.Assert
 import org.junit.Test
 
@@ -18,6 +19,23 @@ class KHtmlTest {
         val attribute = Div()
         attribute.attributes["class"] = "class"
         Assert.assertEquals("<div class=\"class\"></div>", attribute.toString())
+    }
+
+    Test
+    fun testAddClass() {
+        val div = Div()
+        Assert.assertEquals("<div></div>", div.toString())
+
+        div.addClass("first")
+        Assert.assertEquals("<div class=\"first\"></div>", div.toString())
+
+        div.addClass("second")
+        Assert.assertEquals("<div class=\"first second\"></div>", div.toString())
+        div.addClass("second")
+        Assert.assertEquals("<div class=\"first second\"></div>", div.toString())
+
+        div.addClass("third", "fourth")
+        Assert.assertEquals("<div class=\"first second third fourth\"></div>", div.toString())
     }
 
     Test
