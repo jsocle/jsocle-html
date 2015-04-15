@@ -3,6 +3,7 @@ package com.khtml
 import com.khtml.elements.Div
 import com.khtml.elements.Html
 import com.khtml.elements.Img
+import com.khtml.elements.P
 import com.khtml.extentions.addClass
 import org.junit.Assert
 import org.junit.Test
@@ -60,5 +61,14 @@ class KHtmlTest {
         Assert.assertEquals(
                 "<!DOCTYPE html><html><body><div class=\"container\"><h1>title</h1></div></body></html>", html.toString()
         )
+    }
+
+    Test
+    fun testPlus() {
+        val div = Div() {
+            +"inline text"
+            +P("child")
+        }
+        Assert.assertEquals("<div>inline text<p>child</p></div>", div.toString())
     }
 }

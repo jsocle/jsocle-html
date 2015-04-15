@@ -86,6 +86,17 @@ abstract class BaseElement(elementName: String, text_: String? = null) : BaseEmp
         (children as ArrayList<Node>).add(node)
     }
 
+    public fun addNode(text: String) {
+        addNode(TextNode(text))
+    }
+
+    public fun Node.plus() {
+        addNode(this)
+    }
+
+    public fun String.plus() {
+        addNode(this)
+    }
 }
 
 class TextNode(public val text: String) : Node() {
