@@ -71,4 +71,13 @@ class KHtmlTest {
         }
         Assert.assertEquals("<div>inline text<p>child</p></div>", div.toString())
     }
+
+    Test
+    fun testData() {
+        val div = Div() {
+            data_["userId"] = "anonymous"
+            data_["userName"] = "John Doe"
+        }
+        Assert.assertEquals("<div data-user-id=\"anonymous\" data-user-name=\"John Doe\"></div>", div.toString())
+    }
 }

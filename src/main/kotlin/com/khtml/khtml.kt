@@ -30,6 +30,28 @@ object attributeHandler : ReadWriteProperty<BaseEmptyElement, String?> {
     }
 }
 
+class DataHandler(private val element: BaseEmptyElement) {
+    fun get(name: String): String? {
+        val attr = "data-${name.hyphens()}"
+        if (element.attributes.containsKey(attr)) {
+            return element.attributes[attr]
+        }
+        return null
+    }
+
+    fun set(name: String, value: String?) {
+        val attr = "data-${name.hyphens()}"
+        if (value != null) {
+            element.attributes.put(attr, value)
+        } else {
+            if (element.attributes.containsKey(attr)) {
+                element.attributes.remove(attr)
+            }
+        }
+    }
+}
+
+
 abstract class Node {
     abstract public fun render(builder: Appendable)
 
@@ -42,6 +64,7 @@ abstract class Node {
 
 abstract class BaseEmptyElement(public val elementName: String) : Node() {
     public val attributes: MutableMap<String, String> = hashMapOf()
+    public val data_: DataHandler = DataHandler(this)
 
     override public fun render(builder: Appendable) {
         if (this is Html) {
