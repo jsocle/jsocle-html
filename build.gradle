@@ -9,10 +9,10 @@ buildscript {
     }
 }
 
-name = "khtml"
 version = "0.0.1"
 
 apply plugin: "kotlin"
+apply plugin: 'maven'
 
 repositories {
     mavenCentral()
