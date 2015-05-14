@@ -1,6 +1,6 @@
-package com.khtml.extentions
+package com.github.jsocle.html.extentions
 
-import com.khtml.BaseEmptyElement
+import com.github.jsocle.html.BaseEmptyElement
 
 public val BaseEmptyElement.classes: List<String>
     get() {

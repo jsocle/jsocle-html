@@ -1,6 +1,6 @@
-package com.khtml
+package com.github.jsocle.html
 
-import com.khtml.elements.Html
+import com.github.jsocle.html.elements.Html
 import java.util.ArrayList
 import java.util.regex.Pattern
 import kotlin.properties.ReadWriteProperty

@@ -1,8 +1,8 @@
-package com.khtml.elements
+package com.github.jsocle.html.elements
 
-import com.khtml.BaseElement
-import com.khtml.BaseEmptyElement
-import com.khtml.attributeHandler
+import com.github.jsocle.html.BaseElement
+import com.github.jsocle.html.BaseEmptyElement
+import com.github.jsocle.html.attributeHandler
 
 public abstract class EmptyElement(elementName: String, class_:String? = null, contenteditable:String? = null, contextmenu:String? = null, data:String? = null, dir:String? = null, draggable:String? = null, dropzone:String? = null, hidden:String? = null, id:String? = null, lang:String? = null, onbeforeprint:String? = null, onbeforeunload:String? = null, oncanplay:String? = null, oncanplaythrough:String? = null, onchange:String? = null, oncontextmenu:String? = null, oncuechange:String? = null, oncut:String? = null, ondblclick:String? = null, ondrag:String? = null, ondragend:String? = null, ondragenter:String? = null, ondragleave:String? = null, ondragover:String? = null, ondragstart:String? = null, ondrop:String? = null, ondurationchange:String? = null, onemptied:String? = null, onended:String? = null, onerror:String? = null, onfocus:String? = null, onhashchange:String? = null, oninput:String? = null, oninvalid:String? = null, onkeypress:String? = null, onkeyup:String? = null, onload:String? = null, onloadeddata:String? = null, onloadedmetadata:String? = null, onloadstart:String? = null, onmessage:String? = null, onmousedown:String? = null, onmousemove:String? = null, onmouseout:String? = null, onmouseover:String? = null, onmouseup:String? = null, onmousewheel:String? = null, onoffline:String? = null, ononline:String? = null, onpagehide:String? = null, onpageshow:String? = null, onpaste:String? = null, onpause:String? = null, onplay:String? = null, onplaying:String? = null, onpopstate:String? = null, onprogress:String? = null, onratechange:String? = null, onreset:String? = null, onresize:String? = null, onscroll:String? = null, onsearch:String? = null, onseeked:String? = null, onseeking:String? = null, onselect:String? = null, onshow:String? = null, onstalled:String? = null, onstorage:String? = null, onsubmit:String? = null, onsuspend:String? = null, ontimeupdate:String? = null, ontoggle:String? = null, onunload:String? = null, onvolumechange:String? = null, onwaiting:String? = null, onwheel:String? = null, spellcheck:String? = null, style:String? = null, tabindex:String? = null, title:String? = null, translate:String? = null): BaseEmptyElement(elementName = elementName) {
     public var class_: String? by attributeHandler

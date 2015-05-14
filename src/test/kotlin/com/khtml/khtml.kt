@@ -1,10 +1,10 @@
-package com.khtml
+package com.github.jsocle.html
 
-import com.khtml.elements.Div
-import com.khtml.elements.Html
-import com.khtml.elements.Img
-import com.khtml.elements.P
-import com.khtml.extentions.addClass
+import com.github.jsocle.html.elements.Div
+import com.github.jsocle.html.elements.Html
+import com.github.jsocle.html.elements.Img
+import com.github.jsocle.html.elements.P
+import com.github.jsocle.html.extentions.addClass
 import org.junit.Assert
 import org.junit.Test
 
