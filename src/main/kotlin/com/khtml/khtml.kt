@@ -1,12 +1,14 @@
 package com.khtml
 
-import com.google.common.base.CaseFormat
 import com.khtml.elements.Html
 import java.util.ArrayList
+import java.util.regex.Pattern
 import kotlin.properties.ReadWriteProperty
 
+private val hyphensPattern = Pattern.compile("(?!^)([A-Z]+)")
+
 fun String.hyphens(): String {
-    return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, this)
+    return hyphensPattern.matcher(this).replaceAll("-$1").toLowerCase();
 }
 
 object attributeHandler : ReadWriteProperty<BaseEmptyElement, String?> {

@@ -80,4 +80,10 @@ class KHtmlTest {
         }
         Assert.assertEquals("<div data-user-id=\"anonymous\" data-user-name=\"John Doe\"></div>", div.toString())
     }
+
+    Test
+    fun testHyphens() {
+        Assert.assertEquals("foo", "foo".hyphens());
+        Assert.assertEquals("foo-bar", "fooBar".hyphens());
+    }
 }
