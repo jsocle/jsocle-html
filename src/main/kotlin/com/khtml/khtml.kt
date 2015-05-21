@@ -126,6 +126,14 @@ abstract class BaseElement(elementName: String, text_: String? = null) : BaseEmp
 
 class TextNode(public val text: String) : Node() {
     override fun render(builder: Appendable) {
-        builder.append(text)
+        for(c in text) {
+		builder.append(when (c) {
+			'"' -> "&quot;"
+			'<' -> "&lt;"
+			'>' -> "&gt;"
+			'&' -> "&amp;"
+			else -> "$c"
+		})
+	}
     }
 }

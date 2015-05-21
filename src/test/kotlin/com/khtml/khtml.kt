@@ -45,6 +45,14 @@ class KHtmlTest {
     }
 
     Test
+    fun testTextEscape() {
+        Assert.assertEquals(
+                "<div>&lt;script&gt;alert(&quot;&amp;&quot;);&lt;/script&gt;</div>",
+                Div(text_ = "<script>alert(\"&\");</script>").toString()
+        )
+    }
+
+    Test
     fun testSingleNode() {
         Assert.assertEquals("<img src=\"icon.png\">", Img(src = "icon.png").toString())
     }
