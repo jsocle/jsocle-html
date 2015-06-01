@@ -8,7 +8,7 @@ public val BaseEmptyElement.classes: List<String>
         if (class_ == null) {
             return listOf()
         }
-        return class_.split(' ').asList()
+        return class_.split(' ').toList()
     }
 
 public fun <T : BaseEmptyElement> T.addClass(vararg classes: String): T {
