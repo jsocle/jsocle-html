@@ -1,9 +1,6 @@
 package com.github.jsocle.html
 
-import com.github.jsocle.html.elements.Div
-import com.github.jsocle.html.elements.Html
-import com.github.jsocle.html.elements.Img
-import com.github.jsocle.html.elements.P
+import com.github.jsocle.html.elements.*
 import com.github.jsocle.html.extentions.addClass
 import org.junit.Assert
 import org.junit.Test
@@ -93,5 +90,13 @@ class KHtmlTest {
     fun testHyphens() {
         Assert.assertEquals("foo", "foo".hyphens());
         Assert.assertEquals("foo-bar", "fooBar".hyphens());
+    }
+
+    Test
+    fun testEquals() {
+        Assert.assertEquals(Input(), Input())
+        Assert.assertNotEquals(Input(), Div())
+        Assert.assertEquals(Input(name = "name", type = "text"), Input(type = "text", name = "name"))
+        Assert.assertNotEquals(Input(name = "name", type = "text"), Input(class_ = "_div", type = "text", name = "name"))
     }
 }

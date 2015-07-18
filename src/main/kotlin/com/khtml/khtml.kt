@@ -88,6 +88,13 @@ abstract class BaseEmptyElement(public val elementName: String) : Node() {
                 }
         builder.append(">")
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other is BaseEmptyElement) {
+            return elementName == other.elementName && attributes == other.attributes;
+        }
+        return false;
+    }
 }
 
 abstract class BaseElement(elementName: String, text_: String? = null) : BaseEmptyElement(elementName = elementName) {
@@ -122,18 +129,34 @@ abstract class BaseElement(elementName: String, text_: String? = null) : BaseEmp
     public fun String.plus() {
         addNode(this)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (super.equals(other)) {
+            if (other is BaseElement) {
+                return children == other.children
+            }
+        }
+        return false;
+    }
 }
 
 class TextNode(public val text: String) : Node() {
     override fun render(builder: Appendable) {
-        for(c in text) {
-		builder.append(when (c) {
-			'"' -> "&quot;"
-			'<' -> "&lt;"
-			'>' -> "&gt;"
-			'&' -> "&amp;"
-			else -> "$c"
-		})
-	}
+        for (c in text) {
+            builder.append(when (c) {
+                '"' -> "&quot;"
+                '<' -> "&lt;"
+                '>' -> "&gt;"
+                '&' -> "&amp;"
+                else -> "$c"
+            })
+        }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other is TextNode) {
+            return text == other.text
+        }
+        return false
     }
 }
