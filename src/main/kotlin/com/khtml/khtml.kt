@@ -2,13 +2,19 @@ package com.github.jsocle.html
 
 import com.github.jsocle.html.elements.Html
 import java.util.ArrayList
-import java.util.regex.Pattern
 import kotlin.properties.ReadWriteProperty
 
-private val hyphensPattern = Pattern.compile("(?!^)([A-Z]+)")
-
 fun String.hyphens(): String {
-    return hyphensPattern.matcher(this).replaceAll("-$1").toLowerCase();
+    val builder = StringBuilder()
+    for (ch in this) {
+        if (ch.isUpperCase()) {
+            builder.append('-')
+            builder.append(ch.toLowerCase())
+        } else {
+            builder.append(ch)
+        }
+    }
+    return builder.toString()
 }
 
 object attributeHandler : ReadWriteProperty<BaseEmptyElement, String?> {
@@ -79,7 +85,12 @@ abstract class BaseEmptyElement(public val elementName: String) : Node() {
         builder.append("<").append(elementName)
         attributes
                 .map {
-                    it.getKey().replaceAll("[_]+$", "") to it.getValue()
+                    val key = if (it.getKey().endsWith('_')) {
+                        it.getKey().substring(0, it.getKey().lastIndex);
+                    } else {
+                        it.getKey()
+                    }
+                    key to it.getValue()
                 }
                 .sortBy { it.first }
                 .forEach {
