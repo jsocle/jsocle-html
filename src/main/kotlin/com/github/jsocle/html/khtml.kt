@@ -18,16 +18,16 @@ fun String.hyphens(): String {
 }
 
 object attributeHandler : ReadWriteProperty<BaseEmptyElement, String?> {
-    override fun get(thisRef: BaseEmptyElement, desc: PropertyMetadata): String? {
-        val name = desc.name.hyphens()
+    operator override fun get(thisRef: BaseEmptyElement, property: PropertyMetadata): String? {
+        val name = property.name.hyphens()
         if (thisRef.attributes.containsKey(name)) {
             return thisRef.attributes[name]
         }
         return null
     }
 
-    override fun set(thisRef: BaseEmptyElement, desc: PropertyMetadata, value: String?) {
-        val name = desc.name.hyphens()
+    operator override fun set(thisRef: BaseEmptyElement, property: PropertyMetadata, value: String?) {
+        val name = property.name.hyphens()
         if (value != null) {
             thisRef.attributes.put(name, value)
         } else {
@@ -39,7 +39,7 @@ object attributeHandler : ReadWriteProperty<BaseEmptyElement, String?> {
 }
 
 class DataHandler(private val element: BaseEmptyElement) {
-    fun get(name: String): String? {
+    operator fun get(name: String): String? {
         val attr = "data-${name.hyphens()}"
         if (element.attributes.containsKey(attr)) {
             return element.attributes[attr]
@@ -47,7 +47,7 @@ class DataHandler(private val element: BaseEmptyElement) {
         return null
     }
 
-    fun set(name: String, value: String?) {
+    operator fun set(name: String, value: String?) {
         val attr = "data-${name.hyphens()}"
         if (value != null) {
             element.attributes.put(attr, value)
@@ -92,7 +92,7 @@ abstract class BaseEmptyElement(public val elementName: String) : Node() {
                     }
                     key to it.getValue()
                 }
-                .sortBy { it.first }
+                .sortedBy { it.first }
                 .forEach {
                     val (name, value) = it
                     builder.append(" ").append(name).append("=\"").append(value).append("\"")
@@ -133,11 +133,11 @@ abstract class BaseElement(elementName: String, text_: String? = null) : BaseEmp
         addNode(TextNode(text))
     }
 
-    public fun Node.plus() {
+    operator public fun Node.plus() {
         addNode(this)
     }
 
-    public fun String.plus() {
+    operator public fun String.plus() {
         addNode(this)
     }
 

@@ -6,7 +6,7 @@ import org.junit.Assert
 import org.junit.Test
 
 class KHtmlTest {
-    Test
+    @Test
     fun testClass() {
         Assert.assertEquals("<div class=\"class\"></div>", Div(class_ = "class").toString())
 
@@ -19,7 +19,7 @@ class KHtmlTest {
         Assert.assertEquals("<div class=\"class\"></div>", attribute.toString())
     }
 
-    Test
+    @Test
     fun testAddClass() {
         val div = Div()
         Assert.assertEquals("<div></div>", div.toString())
@@ -36,12 +36,12 @@ class KHtmlTest {
         Assert.assertEquals("<div class=\"first second third fourth\"></div>", div.toString())
     }
 
-    Test
+    @Test
     fun testText() {
         Assert.assertEquals("<div>text</div>", Div(text_ = "text").toString())
     }
 
-    Test
+    @Test
     fun testTextEscape() {
         Assert.assertEquals(
                 "<div>&lt;script&gt;alert(&quot;&amp;&quot;);&lt;/script&gt;</div>",
@@ -49,12 +49,12 @@ class KHtmlTest {
         )
     }
 
-    Test
+    @Test
     fun testSingleNode() {
         Assert.assertEquals("<img src=\"icon.png\">", Img(src = "icon.png").toString())
     }
 
-    Test
+    @Test
     fun testHtml() {
         val html = Html {
             body {
@@ -68,7 +68,7 @@ class KHtmlTest {
         )
     }
 
-    Test
+    @Test
     fun testPlus() {
         val div = Div() {
             +"inline text"
@@ -77,7 +77,7 @@ class KHtmlTest {
         Assert.assertEquals("<div>inline text<p>child</p></div>", div.toString())
     }
 
-    Test
+    @Test
     fun testData() {
         val div = Div() {
             data_["userId"] = "anonymous"
@@ -86,13 +86,13 @@ class KHtmlTest {
         Assert.assertEquals("<div data-user-id=\"anonymous\" data-user-name=\"John Doe\"></div>", div.toString())
     }
 
-    Test
+    @Test
     fun testHyphens() {
         Assert.assertEquals("foo", "foo".hyphens());
         Assert.assertEquals("foo-bar", "fooBar".hyphens());
     }
 
-    Test
+    @Test
     fun testEquals() {
         Assert.assertEquals(Input(), Input())
         Assert.assertNotEquals(Input(), Div())

@@ -4,10 +4,7 @@ import com.github.jsocle.html.BaseEmptyElement
 
 public val BaseEmptyElement.classes: List<String>
     get() {
-        val class_ = attributes["class_"]
-        if (class_ == null) {
-            return listOf()
-        }
+        val class_ = attributes["class_"] ?: return listOf()
         return class_.split(' ').toList()
     }
 
