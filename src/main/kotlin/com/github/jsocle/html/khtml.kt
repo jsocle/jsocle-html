@@ -1,8 +1,9 @@
 package com.github.jsocle.html
 
 import com.github.jsocle.html.elements.Html
-import java.util.ArrayList
+import java.util.*
 import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 fun String.hyphens(): String {
     val builder = StringBuilder()
@@ -18,7 +19,7 @@ fun String.hyphens(): String {
 }
 
 object attributeHandler : ReadWriteProperty<BaseEmptyElement, String?> {
-    operator override fun get(thisRef: BaseEmptyElement, property: PropertyMetadata): String? {
+    operator override fun getValue(thisRef: BaseEmptyElement, property: KProperty<*>): String? {
         val name = property.name.hyphens()
         if (thisRef.attributes.containsKey(name)) {
             return thisRef.attributes[name]
@@ -26,7 +27,7 @@ object attributeHandler : ReadWriteProperty<BaseEmptyElement, String?> {
         return null
     }
 
-    operator override fun set(thisRef: BaseEmptyElement, property: PropertyMetadata, value: String?) {
+    operator override fun setValue(thisRef: BaseEmptyElement, property: KProperty<*>, value: String?) {
         val name = property.name.hyphens()
         if (value != null) {
             thisRef.attributes.put(name, value)
@@ -85,12 +86,12 @@ abstract class BaseEmptyElement(public val elementName: String) : Node() {
         builder.append("<").append(elementName)
         attributes
                 .map {
-                    val key = if (it.getKey().endsWith('_')) {
-                        it.getKey().substring(0, it.getKey().lastIndex);
+                    val key = if (it.key.endsWith('_')) {
+                        it.key.substring(0, it.key.lastIndex);
                     } else {
-                        it.getKey()
+                        it.key
                     }
-                    key to it.getValue()
+                    key to it.value
                 }
                 .sortedBy { it.first }
                 .forEach {
@@ -105,6 +106,10 @@ abstract class BaseEmptyElement(public val elementName: String) : Node() {
             return elementName == other.elementName && attributes == other.attributes;
         }
         return false;
+    }
+
+    override fun hashCode(): Int {
+        return super.hashCode()
     }
 }
 
@@ -133,11 +138,11 @@ abstract class BaseElement(elementName: String, text_: String? = null) : BaseEmp
         addNode(TextNode(text))
     }
 
-    operator public fun Node.plus() {
+    operator public fun Node.unaryPlus() {
         addNode(this)
     }
 
-    operator public fun String.plus() {
+    operator public fun String.unaryPlus() {
         addNode(this)
     }
 
@@ -148,6 +153,10 @@ abstract class BaseElement(elementName: String, text_: String? = null) : BaseEmp
             }
         }
         return false;
+    }
+
+    override fun hashCode(): Int {
+        return super.hashCode()
     }
 }
 
@@ -169,5 +178,9 @@ class TextNode(public val text: String) : Node() {
             return text == other.text
         }
         return false
+    }
+
+    override fun hashCode(): Int {
+        return super.hashCode()
     }
 }
