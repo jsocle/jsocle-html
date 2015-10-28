@@ -98,5 +98,19 @@ class KHtmlTest {
         Assert.assertNotEquals(Input(), Div())
         Assert.assertEquals(Input(name = "name", type = "text"), Input(type = "text", name = "name"))
         Assert.assertNotEquals(Input(name = "name", type = "text"), Input(class_ = "_div", type = "text", name = "name"))
+
+
+        fun evenly(list: List<Li>) {
+            list.forEachIndexed { i, li -> if (i % 2 == 0) li.addClass("even") }
+        }
+
+        val numbers = listOf(1, 2, 3, 4, 5)
+        val ul = Ul {
+            val liList = numbers.map {
+                li(text_ = it.toString())
+            }
+            evenly(liList)
+        }
+        println(ul)
     }
 }
