@@ -4,7 +4,13 @@ JSOCLE-HTML - TypeSafe HTML Builder
 뭐에 쓰는 물건인고?
 --------------
 
-HTML 을 안전하고 편리하게 표현할수 있도록 해준다.
+HTML 을 안전하고 편리하고 완벽하게 kotlin 으로 표현할수 있도록 해준다.
+
+Why?
+----
+
+* Kotlin Everywhere
+* Seamless - 모든것을 프로그래밍 할 수 있다는 것 자체가 장점이다.
 
 Hello, world
 ------------
@@ -24,6 +30,18 @@ println(html.render())
         <h1>hello, world</h1>
     </body>
 </html>
+```
+
+Safe
+----
+자동으로 모든 문자열을 escape 처리함
+```kotlin
+val danger = """<script src="http://crack.com/crack.js"></script>"""
+val p = P(text_ = danger)
+println(p)
+```
+```html
+<p>&lt;script&gt;http://crack.com/crack.js&lt;/script&gt;</p>
 ```
 
 class helpers
