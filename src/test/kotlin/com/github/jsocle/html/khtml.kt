@@ -4,6 +4,10 @@ import com.github.jsocle.html.elements.*
 import com.github.jsocle.html.extentions.addClass
 import org.junit.Assert
 import org.junit.Test
+import kotlin.collections.forEachIndexed
+import kotlin.collections.listOf
+import kotlin.collections.map
+import kotlin.collections.set
 
 class KHtmlTest {
     @Test

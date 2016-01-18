@@ -2,12 +2,14 @@ package com.github.jsocle.html
 
 import com.github.jsocle.html.elements.Html
 import java.util.*
+import kotlin.collections.*
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
+import kotlin.text.*
 
 fun String.hyphens(): String {
     val builder = StringBuilder()
-    for (ch in this) {
+    forEach { ch ->
         if (ch.isUpperCase()) {
             builder.append('-')
             builder.append(ch.toLowerCase())
@@ -162,7 +164,7 @@ abstract class BaseElement(elementName: String, text_: String? = null) : BaseEmp
 
 class TextNode(public val text: String) : Node() {
     override fun render(builder: Appendable) {
-        for (c in text) {
+        text.forEach { c ->
             builder.append(when (c) {
                 '"' -> "&quot;"
                 '<' -> "&lt;"

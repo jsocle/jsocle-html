@@ -1,6 +1,8 @@
 package com.github.jsocle.html.extentions
 
 import com.github.jsocle.html.BaseEmptyElement
+import kotlin.collections.*
+import kotlin.text.split
 
 public val BaseEmptyElement.classes: List<String>
     get() {
