@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.0.0';
+    ext.kotlin_version = '1.0.1-2';
 
     repositories {
         mavenCentral()
@@ -31,6 +31,7 @@ artifacts {
     archives sourcesJar
 }
 
+//noinspection GroovyAssignabilityCheck
 sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
 }
